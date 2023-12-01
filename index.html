@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minnepinne.no</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh; /* Endret til min-height for å håndtere sider som er lengre enn skjermhøyden */
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #image-container {
+            border-radius: 150px; /* Avrunding i hjørnene */
+            overflow: hidden;
+            max-width: 100%;
+            max-height: 80vh; /* Begrens høyden slik at footer ikke blir skjult */
+            border: 2px solid #ddd; /* Legg til en 2px solid grå border */
+            margin-bottom: 20px; /* Legg til margin under bildet */
+        }
+
+        #unsplash-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        #header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #footer {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #footer a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        #image-source {
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>Dette er kanskje en minnepinne</h1>
+    </div>
+    
+    <div id="image-container">
+        <img id="unsplash-image" alt="Random Unsplash Image">
+    </div>
+
+    <div id="footer">
+        <p>Hostes av <a href="https://www.fladby3dprint.no" target="_blank">Fladby 3Dprint</a></p>
+        <p id="image-source">Bilder hentes fra <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
+    </div>
+
+    <script>
+        // Elementreferanser
+        const unsplashImage = document.getElementById('unsplash-image');
+
+        // Funksjon for å oppdatere bildet fra Unsplash
+        function updateImage() {
+            // Legg til en tilfeldig streng for å tvinge bildet til å oppdatere hver gang
+            const randomString = Math.random().toString(36).substring(7);
+            const imageUrl = `https://source.unsplash.com/random?flashdrive`;
+
+            // Sett bildet til bildecontaineren
+            unsplashImage.src = imageUrl;
+        }
+
+        // Kjør funksjonen når siden lastes
+        updateImage();
+    </script>
+</body>
+</html>
