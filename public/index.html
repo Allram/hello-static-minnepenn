@@ -16,7 +16,7 @@
         }
 
         #image-container {
-            border-radius: 150px; /* Avrunding i hjørnene */
+            border-radius: 100px; /* Avrunding i hjørnene */
             overflow: hidden;
             max-width: 100%;
             max-height: 80vh; /* Begrens høyden slik at footer ikke blir skjult */
@@ -24,7 +24,7 @@
             margin-bottom: 20px; /* Legg til margin under bildet */
         }
 
-        #unsplash-image {
+        #pixabay-image {
             width: 100%;
             height: auto;
             display: block;
@@ -54,30 +54,47 @@
 <body>
     <div id="header">
         <h1>Dette er kanskje en minnepinne</h1>
-        <h3>Hvis ikke, må du oppdatere siden</h3>
+        <h3>hvis ikke må du oppdatere siden</h3>
     </div>
     
     <div id="image-container">
-        <img id="unsplash-image" alt="Random Unsplash Image">
+        <img id="pixabay-image" alt="Random Pixabay Image">
     </div>
 
     <div id="footer">
         <p>Hostes av <a href="https://www.fladby3dprint.no" target="_blank">Fladby 3Dprint</a></p>
-        <p id="image-source">Bilder hentes fra <a href="https://unsplash.com" target="_blank">Unsplash</a></p>
+        <p id="image-source">Bilder hentes fra <a href="https://pixabay.com" target="_blank">Pixabay</a></p>
     </div>
 
-    <script>
+    <!-- Legg til denne skriptreferansen for Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script type="module">
         // Elementreferanser
-        const unsplashImage = document.getElementById('unsplash-image');
+        const pixabayImage = document.getElementById('pixabay-image');
 
-        // Funksjon for å oppdatere bildet fra Unsplash
-        function updateImage() {
-            // Legg til en tilfeldig streng for å tvinge bildet til å oppdatere hver gang
-            const randomString = Math.random().toString(36).substring(7);
-            const imageUrl = `https://source.unsplash.com/random?flashdrive`;
+        // Funksjon for å oppdatere bildet fra Pixabay
+        async function updateImage() {
+            const API_KEY = '41060380-4aa43578a0148b8d1ae6f3d3d'; // Erstatt med din Pixabay API-nøkkel
+            const searchTerm = 'usb memory stick';
 
-            // Sett bildet til bildecontaineren
-            unsplashImage.src = imageUrl;
+            try {
+                const response = await axios.get(
+                    `https://pixabay.com/api/?key=${API_KEY}&q=${searchTerm}&per_page=100`
+                );
+
+                const images = response.data.hits;
+
+                if (images.length === 0) {
+                    throw new Error(`No images found for search term: ${searchTerm}`);
+                }
+
+                // Return a random image from the search results
+                const randomImage = images[Math.floor(Math.random() * images.length)];
+                pixabayImage.src = randomImage.webformatURL;
+            } catch (error) {
+                console.error('Feil ved henting av bilde:', error.message);
+            }
         }
 
         // Kjør funksjonen når siden lastes
